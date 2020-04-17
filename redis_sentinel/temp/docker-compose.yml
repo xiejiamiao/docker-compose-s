@@ -1,0 +1,11 @@
+version: "3"
+services: 
+  demo1:
+    image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    volumes: 
+      - /var/docker.var/temp_run:/app
+    command: ["dotnet","Jiamiao.x.RedisSentinelDemo.dll"]
+networks: 
+  default:
+    external: 
+      name: master_slave_default

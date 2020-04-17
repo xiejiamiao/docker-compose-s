@@ -1,0 +1,36 @@
+version: "3"
+services: 
+  sentinel1:
+    image: redis
+    container_name: redis-sentinel-1
+    restart: always
+    privileged: true
+    ports: 
+      - 26379:26379
+    volumes: 
+      - ./sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+    command: ["redis-sentinel","/usr/local/etc/redis/sentinel.conf"]
+  sentinel2:
+    image: redis
+    container_name: redis-sentinel-2
+    restart: always
+    privileged: true
+    ports: 
+      - 26380:26379
+    volumes: 
+      - ./sentinel2.conf:/usr/local/etc/redis/sentinel.conf
+    command: ["redis-sentinel","/usr/local/etc/redis/sentinel.conf"]
+  sentinel3:
+    image: redis
+    container_name: redis-sentinel-3
+    restart: always
+    privileged: true
+    ports: 
+      - 26381:23679
+    volumes: 
+      - ./sentinel3.conf:/usr/local/etc/redis/sentinel.conf
+    command: ["redis-sentinel","/usr/local/etc/redis/sentinel.conf"]
+networks: 
+  default:
+    external: 
+      name: master_slave_default

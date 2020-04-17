@@ -1,29 +1,39 @@
-version: "3"
+version: '3'
 services: 
-    master:
-      image: redis
-      container_name: redis-master
-      volumes: 
-        - /var/docker.var/redis_sentinel/master_slave/master_6379/redis.conf:/etc/redis/redis.conf
-        - /var/docker.var/redis_sentinel/master_slave/master_6379/data:/data
-      ports: 
-        - 6379:6379
-      command: ["redis-server","/etc/redis/redis.conf"]
-    slave1:
-      image: redis
-      container_name: redis-slave-1
-      volumes: 
-        - /var/docker.var/redis_sentinel/master_slave/slave_6380/redis.conf:/etc/redis/redis.conf
-        - /var/docker.var/redis_sentinel/master_slave/slave_6380/data:/data
-      ports: 
-        - 6380:6380
-      command: ["redis-server","/etc/redis/redis.conf"]
-    slave2:
-      image: redis
-      container_name: redis-slave-2
-      volumes: 
-        - /var/docker.var/redis_sentinel/master_slave/slave_6381/redis.conf:/etc/redis/redis.conf
-        - /var/docker.var/redis_sentinel/master_slave/slave_6381/data:/data
-      ports: 
-        - 6381:6381
-      command: ["redis-server","/etc/redis/redis.conf"]
+  master:
+    image: redis
+    container_name: redis-master
+    restart: always
+    privileged: true
+    volumes: 
+      - /var/docker.var/redis/master_slave/master_6379/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - /var/docker.var/redis/master_slave/master_6379/data:/data
+    command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+    ports: 
+      - 6379:6379
+  slave1:
+    image: redis
+    container_name: redis-slave-1
+    restart: always
+    privileged: true
+    volumes: 
+      - /var/docker.var/redis/master_slave/slave_6380/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - /var/docker.var/redis/master_slave/slave_6380/data:/data
+    command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+    ports: 
+      - 6380:6380
+    depends_on: 
+      - master
+  slave2:
+    image: redis
+    container_name: redis-slave-2
+    restart: always
+    privileged: true
+    volumes: 
+      - /var/docker.var/redis/master_slave/slave_6381/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - /var/docker.var/redis/master_slave/slave_6381/data:/data
+    command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+    ports: 
+      - 6381:6381
+    depends_on: 
+      - master
