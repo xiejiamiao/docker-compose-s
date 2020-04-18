@@ -1,0 +1,132 @@
+version: "3"
+services:
+  master:
+    image: redis
+    container_name: redis-master
+    restart: always
+    privileged: true
+    ports:
+      - 6379:6379
+    volumes:
+      - ./master/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./master/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+  slave1:
+    image: redis
+    container_name: redis-slave-6380
+    restart: always
+    privileged: true
+    ports:
+      - 6380:6380
+    volumes:
+      - ./slave/6380/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./slave/6380/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    depends_on:
+      - master
+  slave2:
+    image: redis
+    container_name: redis-slave-6381
+    restart: always
+    privileged: true
+    ports:
+      - 6381:6381
+    volumes:
+      - ./slave/6381/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./slave/6381/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    depends_on:
+      - master
+  slave3:
+    image: redis
+    container_name: redis-slave-6382
+    restart: always
+    privileged: true
+    ports:
+      - 6382:6382
+    volumes:
+      - ./slave/6382/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./slave/6382/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    depends_on:
+      - master
+  sentinel1:
+    image: redis
+    container_name: redis-sentinel-26379
+    restart: always
+    privileged: true
+    ports:
+      - 26379:26379
+    volumes:
+      - ./sentinel/26379/conf/sentinel.conf:/usr/local/etc/redis/sentinel_26379.conf
+      - ./sentinel/26379/data:/tmp
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel_26379.conf"]
+    depends_on:
+      - master
+      - slave1
+      - slave2
+      - slave3
+  sentinel2:
+    image: redis
+    container_name: redis-sentinel-26380
+    restart: always
+    privileged: true
+    ports:
+      - 26380:26380
+    volumes:
+      - ./sentinel/26380/conf/sentinel.conf:/usr/local/etc/redis/sentinel_26380.conf
+      - ./sentinel/26380/data:/tmp
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel_26380.conf"]
+    depends_on:
+      - master
+      - slave1
+      - slave2
+      - slave3
+  sentinel3:
+    image: redis
+    container_name: redis-sentinel-26381
+    restart: always
+    privileged: true
+    ports:
+      - 26381:26381
+    volumes:
+      - ./sentinel/26381/conf/sentinel.conf:/usr/local/etc/redis/sentinel_26381.conf
+      - ./sentinel/26381/data:/tmp
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel_26381.conf"]
+    depends_on:
+      - master
+      - slave1
+      - slave2
+      - slave3
+  sentinel4:
+    image: redis
+    container_name: redis-sentinel-26382
+    restart: always
+    privileged: true
+    ports:
+      - 26382:26382
+    volumes:
+      - ./sentinel/26382/conf/sentinel.conf:/usr/local/etc/redis/sentinel_26382.conf
+      - ./sentinel/26382/data:/tmp
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel_26382.conf"]
+    depends_on:
+      - master
+      - slave1
+      - slave2
+      - slave3
+  sentinel5:
+    image: redis
+    container_name: redis-sentinel-26383
+    restart: always
+    privileged: true
+    ports:
+      - 26383:26383
+    volumes:
+      - ./sentinel/26383/conf/sentinel.conf:/usr/local/etc/redis/sentinel_26383.conf
+      - ./sentinel/26383/data:/tmp
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel_26383.conf"]
+    depends_on:
+      - master
+      - slave1
+      - slave2
+      - slave3
